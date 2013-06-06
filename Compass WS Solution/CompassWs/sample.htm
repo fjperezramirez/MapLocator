@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="jquery-1.8.3.min.js" type="text/javascript"></script>
+    
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <meta content='text/html; charset=utf-8'/>
+    
+    <style type="text/css">
+      html, body, #map-canvas {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+    </style>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script type="text/javascript">
+        var m_map;
+        function initialize() {
+            var mapOptions = {
+                zoom: 19,
+                center: new google.maps.LatLng(18.43012, -66.05778),
+                mapTypeId: google.maps.MapTypeId.SATELLITE
+            };
+
+            m_map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+            google.maps.event.addListener(m_map, 'idle', CallService);
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+
+</head>
+<body>
+
+<div id="map-canvas"></div>
+
+<input type="button" value="Call Web Service" onclick="CallService(); return false;" />
+
+<script type="text/javascript">
+    var webServiceURL = 'http://204.45.55.12/CompassWS/CompassWS_V1.asmx';
+    var simpleLocByBoundsSoapMessage =
+            '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">' +
+            '	<soapenv:Header/>' +
+            '	<soapenv:Body>' +
+            '		<tem:SimpleLocationSpatialSearchByBounds>' +
+            '			<tem:southWestLatitude>{southWestLatitude}</tem:southWestLatitude>' +
+            '			<tem:southWestLongitude>{southWestLongitude}</tem:southWestLongitude>' +
+            '			<tem:northEastLatitude>{northEastLatitude}</tem:northEastLatitude>' +
+            '			<tem:northEastLongitude>{northEastLongitude}</tem:northEastLongitude>' +
+            '			<!--Optional:-->' +
+            '			<tem:optionalLocationGroupFilter>' +
+            '				<!--Zero or more repetitions:-->' +
+            '			</tem:optionalLocationGroupFilter>' +
+            '		</tem:SimpleLocationSpatialSearchByBounds>' +
+            '	</soapenv:Body>' +
+            '</soapenv:Envelope>';
+
+    var m_markers;
+
+    function CallService() {
+        var bounds = m_map.getBounds();
+
+        var ne = bounds.getNorthEast();
+        var sw = bounds.getSouthWest();
+
+        var southWestLatitude = sw.lat();
+        var southWestLongitude = sw.lng();
+        var northEastLatitude = ne.lat();
+        var northEastLongitude = ne.lng();
+
+        var soapMessage = simpleLocByBoundsSoapMessage.replace("{southWestLatitude}", southWestLatitude);
+        soapMessage = soapMessage.replace("{southWestLongitude}", southWestLongitude);
+        soapMessage = soapMessage.replace("{northEastLatitude}", northEastLatitude);
+        soapMessage = soapMessage.replace("{northEastLongitude}", northEastLongitude);
+
+        $.ajax({
+            url: webServiceURL,
+            type: "POST",
+            dataType: "xml",
+            data: soapMessage,
+            processData: false,
+            contentType: "text/xml; charset=\"utf-8\"",
+            success: OnSuccess,
+            error: OnError
+        });
+
+        return false;
+    }
+
+    function OnSuccess(data, status) {
+
+        if (m_markers && m_markers.length !== 0) {
+            for (var i = 0; i < m_markers.length; ++i) {
+                m_markers[i].setMap(null);
+            }
+
+            m_markers = null;
+        }
+
+        m_markers = [];
+
+        $(data)
+         .find('SimpleLocationSpatialSearchByBoundsResult').find('SimpleLocation')
+                .each(function(){
+                    var name = $(this).find('Name').text();
+                    var latitude = $(this).find('Latitude').text();
+                    var longitude = $(this).find('Longitude').text();
+
+                    var point = new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
+
+                    var marker = new google.maps.Marker({ position: point, title: name, map: m_map });
+
+                    m_markers.push(marker);
+                });
+    }
+
+    function OnError(request, status, error) {
+        alert('error');
+    }
+
+    $(document).ready(function () {
+        jQuery.support.cors = true;
+    });
+</script>
+
+</body>
+</html>

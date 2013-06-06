@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>CompassDb</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{f9561e67-1f5e-47eb-81df-638e6f348bdc}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>CompassDb</RootNamespace>
+    <AssemblyName>CompassDb</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <!-- Default to the v10.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Jose|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Schema Objects" />
+    <Folder Include="Schema Objects\Tables" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\Post-Deployment" />
+    <Folder Include="Schema Objects\Tables\Keys" />
+    <Folder Include="Schema Objects\Tables\Indexes" />
+    <Folder Include="Scripts\Test Data" />
+    <Folder Include="Schema Objects\Tables\Constraints" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Schema Objects\Tables\EnumeratedType.sql" />
+    <Build Include="Schema Objects\Tables\Keys\UK_EnumeratedType_Name.sql" />
+    <Build Include="Schema Objects\Tables\Keys\PK_EnumeratedType_EnumeratedTypeID.sql" />
+    <Build Include="Schema Objects\Tables\EnumeratedTypeValue.sql" />
+    <Build Include="Schema Objects\Tables\Keys\PK_EnumeratedTypeValue_EnumeratedTypeValueID.sql" />
+    <Build Include="Schema Objects\Tables\Keys\UK_EnumeratedTypeValue_EnumeratedTypeID_Name.sql" />
+    <Build Include="Schema Objects\Tables\Keys\FK_EnumeratedTypeValue_EnumeratedType_EnumeratedTypeID.sql" />
+    <Build Include="Schema Objects\Tables\Keys\UK_EnumeratedTypeValue_EnumeratedTypeID_Code.sql" />
+    <Build Include="Schema Objects\Tables\Indexes\IX_EnumeratedTypeValue_EnumeratedTypeID_Code.sql" />
+    <Build Include="Schema Objects\Tables\Location.sql" />
+    <Build Include="Schema Objects\Tables\Keys\PK_Location_LocationID.sql" />
+    <Build Include="Schema Objects\Tables\Indexes\SIX_Location_Coordinate.sql" />
+    <Build Include="Schema Objects\Tables\Parameter.sql" />
+    <Build Include="Schema Objects\Tables\Keys\PK_Parameter_ParameterID.sql" />
+    <Build Include="Schema Objects\Tables\Keys\FK_Parameter_Location_LocationID.sql" />
+    <Build Include="Schema Objects\Tables\Indexes\IX_Parameter_LocationID.sql" />
+    <Build Include="Schema Objects\Tables\Constraints\DF_Location_CreatedDate.sql" />
+    <Build Include="Schema Objects\Tables\Indexes\IX_Location_LocationGroupEnumCode_SourceIntUniqueKey.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="PrGovGeoApiDb.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DebugPrGovGeoApiDb.publish.xml" />
+    <None Include="Scripts\Test Data\Data Ejemplo.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Post-Deployment\Script.PostDeployment.sql" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DailySync.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ProveedoresCuidoGetProvUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://servicios.adsef.pr.gov/CIMA_WAPI/api/Proveedores/getProveedores</Value>
+    </Setting>
+    <Setting Name="CompassDbConnString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=.\SQL2012;Initial Catalog=CompassDb;Integrated Security=True</Value>
+    </Setting>
+    <Setting Name="ProveedoresCuidoGetProvByIdTemplateUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://servicios.adsef.pr.gov/CIMA_WAPI/api/Proveedores/getProveedoresById/{0}</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
