@@ -11,12 +11,12 @@
 </head> 
 <body> 
 
-<div data-role="page" id="page" data-theme="a">
+<div data-role="page" id="page" data-theme="e">
 	<div data-role="header">
     <a href="mainMenu.html" data-icon="back">Volver</a>
 		<h1>AEE</h1>
 	</div>
-	<div data-role="content" data-theme="a">
+	<div data-role="content" data-theme="e">
 		<div data-role="collapsible-set">
 	    	<div data-role="collapsible">
 	      		<h3>Opciones</h3>
@@ -74,9 +74,11 @@ function initialize() {
   });
   var marker = new google.maps.Marker({
     position: latLng,
-    title: 'Point A',
+    title: 'SELECTOR',
     map: map,
     draggable: true
+	
+
   });
 
   // Update current position info.
@@ -97,14 +99,18 @@ function initialize() {
     updateMarkerStatus('');
     geocodePosition(marker.getPosition());
   });
+  
+ 
 }
 
 // Onload handler to fire off the app.
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
+
         </div>	
         <div>
-        	<a href="#popupMap" data-rel="popup" data-position-to="window" data-role="button" data-theme="a" >Gráficas</a>
+        <a href="#" data-role="button" onClick="InitSimpleLocByBoundsService(); return false;" data-icon="refresh">Ver mapa de delitos</a>
+        	<a href="#popupStadistics" data-rel="popup" data-position-to="window" data-role="button"  data-icon="alert" data-transition="slideup">Métricas</a>
         </div>
         <div id="infoPanel">
    <b></b>
@@ -114,7 +120,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <b>Dirección:</b>
     <div id="address"></div>
   </div>
-        <div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+        <div data-role="popup" id="popupLogin" data-theme="e" class="ui-corner-all">
 						<form>
 							<div style="padding:10px 20px;">
 				  			<h3>Entre los campos requeridos</h3>
@@ -129,24 +135,29 @@ google.maps.event.addDomListener(window, 'load', initialize);
 		            		</div>
 					
 
-		    	  <button type="button" data-theme="a">Salvar</button>
+		    	  <button type="button" data-theme="e">Salvar</button>
                   <script>$( ".popupLogin" ).popup( "close" );</script>
 				</div>
 			</form>
 		</div>
-        <div data-role="popup" id="popupSearch" data-theme="a" class="ui-corner-all">
+        <div data-role="popup" id="popupSearch" data-theme="e" class="ui-corner-all">
 						<form>
 							<div align="center" >
 				  			
 				  			<div data-role="fieldcontain">
 				  			  <label for="textinput2"></label>
-				  		<h1><input type="text" name="textinput2" width="30px" id="textinput2" value="" /><br>
+				  		<h1><input type="text" name="textinput2" width="30px" id="textinput2" value="" />
                         <a href="#" data-role="button" data-inline="true" data-icon="search" >Buscar</a>
                         </h1>
                               </div>
 		          			
 			              </div>
 			</form>
+		</div>
+        <div data-role="popup" id="popupStadistics" data-theme="e" class="ui-corner-all" style="width:100%; height:100%;">
+				<div style="width:100%; height:100%;">
+                TEST GRAFICAS<br><br><br><br><br><br><br><br><br><br><br><br>
+                </div>		
 		</div>
 	</div>
 	
